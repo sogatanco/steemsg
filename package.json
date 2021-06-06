@@ -2,8 +2,7 @@
   "name": "steemsg",
   "version": "0.1.0",
   "private": true,
-  "hompage": "https://sogatanco.github.io/steemsg",
-  "homepage": ".",
+  "hompage": "https://sogatanco.github.io./steemsg",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",

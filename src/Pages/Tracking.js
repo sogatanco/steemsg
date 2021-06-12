@@ -1,5 +1,5 @@
-import React, { useCallback }  from 'react';
-import {Navbar, Nav, Container, Button, ButtonGroup, Table} from 'react-bootstrap' ;
+import React from 'react';
+import {Container, Button, ButtonGroup, Table} from 'react-bootstrap' ;
 
 
 class Tracking extends React.Component{
@@ -8,13 +8,16 @@ class Tracking extends React.Component{
         super();
         this.state={
             data:[],
+            tes:0,
+            data1:[],
             filldata:true,
-            users:['arie.steem', 'pojan', 'ponpase', 'julstamban', 'mcsamm', 'nattybongo', 'cryptokraze', 'michaelchijioke', 'oscarcc89']
+            users:[]
         }
         
     }
 
     getData(user){
+        this.setState({tes:1})
         fetch('https://sds1.steemworld.org/transfers_api/getTransfers/%7B%22type%22:%22transfer_to_vesting%22,%22orderBy%22:%22time%22,%22orderDir%22:%22DESC%22,%22from%22:%22'+user+'%22%7D/1000/0')
         .then(response => response.json())
         .then((jsonData) => {
@@ -26,8 +29,35 @@ class Tracking extends React.Component{
         })
     }
 
-  
+    getDelegator(){
+        var hasiltotal=[]
+        fetch('https://sds1.steemworld.org/delegations_api/getIncomingDelegations/promosteem.com/100000/0')
+            .then(response=>response.json())
+            .then((data)=>{
+                var hasil=data.result.rows
+                hasil.sort(function(a,b){
+                    return parseInt(b[3])- parseInt(a[3]);
+                })
+
+                hasil.map(hs=>{
+                    hasiltotal.push(hs[1])
+                })
+                this.setState({users:hasiltotal})  
+        })
+        
+
+    }
    
+    componentDidMount() {
+        this.timerID = setInterval(
+          () => this.getDelegator(),
+          1000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
 
     render(){
 
@@ -35,27 +65,15 @@ class Tracking extends React.Component{
             return prev + +current[3]
           }, 0);
 
-          console.log(sum)
             return(
                
                 <div>
-                     <Navbar bg="dark" variant="dark" expand="lg">
-                        <Container>
-                            <Navbar.Brand href="#home">PromoSteem.com</Navbar.Brand>
-                                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                                <Navbar.Collapse id="basic-navbar-nav">
-                                    <Nav className="me-auto">
-                                    <Nav.Link href="">Power up info</Nav.Link>
-                                    {/* <Nav.Link href="#link">Link</Nav.Link> */}
-                                    </Nav>
-                                </Navbar.Collapse>
-                        </Container>
-                    </Navbar>
+                     
     
                     <Container className="mt-4">
                         <ButtonGroup aria-label="Basic example" size="sm" className="flex-wrap">
                             {this.state.users.map((user)=>(
-                                <Button className="mb-2" key={user} variant="secondary" onClick={()=>this.getData(user)}>{user}</Button>
+                                <Button className="mb-2" key={user} variant="primary" onClick={()=>this.getData(user)}>{user}</Button>
                             ))}
                            
                         </ButtonGroup>
@@ -65,7 +83,7 @@ class Tracking extends React.Component{
                                 <tr>
                                     <th>Date</th>
                                     <th>Username</th>
-                                    <th>Amount({sum})</th>
+                                    <th>Amount({sum.toFixed(2)})</th>
                                     <th>Unit</th>
                                 </tr>
                             </thead>

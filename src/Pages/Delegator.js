@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, ProgressBar} from 'react-bootstrap';
-import {Route, BrowserRouter, Switch, Link,} from 'react-router-dom';
+import { Link,} from 'react-router-dom';
 
 
 class Delegator extends React.Component{
@@ -26,7 +26,7 @@ class Delegator extends React.Component{
 
     getDelegator(){
         this.vestToSP()
-        var hasiltotal=[]
+        var hasildelegator=[]
         fetch('https://sds1.steemworld.org/delegations_api/getIncomingDelegations/promosteem.com/100000/0')
             .then(response=>response.json())
             .then((data)=>{
@@ -36,18 +36,14 @@ class Delegator extends React.Component{
                 })
 
                 hasil.map(hs=>{
-                    hasiltotal.push({'user':hs[1], 'total':(parseInt(hs[3])*this.state.vts).toFixed(2)})
+                    hasildelegator.push({'user':hs[1], 'total':(parseInt(hs[3])*this.state.vts).toFixed(2)})
                 })
 
-               this.setState({list:hasiltotal})
-        })
-
-                
-
-                
-   
-
+               this.setState({list:hasildelegator})
+        })  
     }
+
+   
     componentDidMount() {
         this.timerID = setInterval(
           () => this.getDelegator(),
@@ -58,9 +54,8 @@ class Delegator extends React.Component{
     componentWillUnmount() {
         clearInterval(this.timerID);
     }
-
+    
     render(){
-      
 
         let sumtotal= this.state.list.reduce(function(prev, current) {
             return prev + +current.total
@@ -71,11 +66,11 @@ class Delegator extends React.Component{
             <>
                 <Card className="mt-4">
                     <Card.Body>
-                        <h4>Best Delegators</h4>
+                        <h4>Top 20 Delegators</h4>
                         <hr></hr> 
                         
                         
-                            {this.state.list.slice(0,12).map((x)=>(
+                            {this.state.list.slice(0,19).map((x)=>(
                                 <div key={x.user} className="mb-2">
                                     <small>{x.user} / {x.total} sp</small>
                                     <ProgressBar animated now={x.total/sumtotal*100}  />

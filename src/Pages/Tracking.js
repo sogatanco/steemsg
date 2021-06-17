@@ -30,6 +30,7 @@ class Tracking extends React.Component{
     }
 
     getDelegator(){
+        var users=[]
         var hasiltotal=[]
         fetch('https://sds1.steemworld.org/delegations_api/getIncomingDelegations/promosteem.com/100000/0')
             .then(response=>response.json())
@@ -38,26 +39,45 @@ class Tracking extends React.Component{
                 hasil.sort(function(a,b){
                     return parseInt(b[3])- parseInt(a[3]);
                 })
-
-                hasil.map(hs=>{
-                    hasiltotal.push(hs[1])
+                
+                hasil.map(hs=>{  
+                      users.push(hs[1]) 
                 })
-                this.setState({users:hasiltotal})  
+              
+                var a=users.toString()
+                var b=a.replace(/,/g, '","');
+                var c='["'+b+'"]'
+
+                fetch('https://api.steemit.com', {
+                body: '{"jsonrpc":"2.0", "method":"condenser_api.get_accounts", "params":['+c+'], "id":1}',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                method: 'POST'
+                }).then(response=>response.json())
+                .then((data)=>{
+                    data.result.map(f=>{
+                        if(new Date(f.next_vesting_withdrawal).getTime()>=Date.now()){
+                            hasiltotal.push({'name':f.name, 'pw':'danger'})
+                        }else{
+                            hasiltotal.push({'name':f.name, 'pw':'primary'})
+                        }
+                        
+                    })
+
+                     this.setState({users:hasiltotal}) 
+                })       
         })
         
 
     }
    
     componentDidMount() {
-        this.timerID = setInterval(
-          () => this.getDelegator(),
-          1000
-        );
+        this.getDelegator();
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
+ 
+      
 
     render(){
 
@@ -68,16 +88,15 @@ class Tracking extends React.Component{
             return(
                
                 <div>
-                     
     
                     <Container className="mt-4">
                         <ButtonGroup aria-label="Basic example" size="sm" className="flex-wrap">
                             {this.state.users.map((user)=>(
-                                <Button className="mb-2" key={user} variant="primary" onClick={()=>this.getData(user)}>{user}</Button>
+                                <Button className="mb-2" key={user.name} variant={user.pw} onClick={()=>this.getData(user.name)}>{user.name}</Button>
                             ))}
                            
                         </ButtonGroup>
-    
+                        <small><i><b className="text-danger">*</b> is doing power down</i></small>
                         <Table striped bordered hover size="sm" responsive>
                             <thead>
                                 <tr>

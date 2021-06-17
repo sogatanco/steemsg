@@ -2,7 +2,7 @@ import React from 'react';
 import Tracking from './Pages/Tracking';
 import Delegator from './Pages/Delegator';
 import FullDelegator from './Pages/FullDelegator';
-import {Route, BrowserRouter, Switch, Link, NavLink} from 'react-router-dom';
+import {Route, BrowserRouter, Switch} from 'react-router-dom';
 import {Navbar, Nav, Container, Row, Col} from 'react-bootstrap' ;
 
 function App() {

@@ -10,6 +10,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "dsteem": "^0.11.3",
+    "google-maps-react": "^2.0.6",
     "http-to-curl": "^1.4.3",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
@@ -19,7 +20,7 @@
     "steem": "^0.7.11",
     "steemconnect": "^3.0.4",
     "web-vitals": "^1.1.1"
-  }, 
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

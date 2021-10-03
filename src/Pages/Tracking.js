@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Button, ButtonGroup, Table} from 'react-bootstrap' ;
+import {Container,  Button, Table, Row, Col, Card, Image, Badge, Modal} from 'react-bootstrap' ;
 
 
 class Tracking extends React.Component{
@@ -11,7 +11,8 @@ class Tracking extends React.Component{
             tes:0,
             data1:[],
             filldata:true,
-            users:[]
+            users:[],
+            show:false
         }
         
     }
@@ -40,9 +41,9 @@ class Tracking extends React.Component{
                     return parseInt(b[3])- parseInt(a[3]);
                 })
                 
-                hasil.map(hs=>{  
+                hasil.map((hs)=>(
                       users.push(hs[1]) 
-                })
+                ))
               
                 var a=users.toString()
                 var b=a.replace(/,/g, '","');
@@ -58,9 +59,9 @@ class Tracking extends React.Component{
                 .then((data)=>{
                     data.result.map(f=>{
                         if(new Date(f.next_vesting_withdrawal).getTime()>=Date.now()){
-                            hasiltotal.push({'name':f.name, 'pw':'danger'})
+                            hasiltotal.push({'name':f.name, 'image':'https://steemitimages.com/u/'+f.name+'/avatar', 'pw':'outline-danger'})
                         }else{
-                            hasiltotal.push({'name':f.name, 'pw':'primary'})
+                            hasiltotal.push({'name':f.name, 'image':'https://steemitimages.com/u/'+f.name+'/avatar', 'pw':'outline-primary'})
                         }
                         
                     })
@@ -76,6 +77,15 @@ class Tracking extends React.Component{
         this.getDelegator();
     }
 
+
+    handleClose(){
+        this.setState({show:false})
+    }
+
+    handleShow(user){
+        this.setState({show:true})
+        this.getData(user)
+    }
  
       
 
@@ -90,43 +100,66 @@ class Tracking extends React.Component{
                 <div>
     
                     <Container className="mt-4">
-                        <ButtonGroup aria-label="Basic example" size="sm" className="flex-wrap">
-                            {this.state.users.map((user)=>(
-                                <Button className="mb-2" key={user.name} variant={user.pw} onClick={()=>this.getData(user.name)}>{user.name}</Button>
-                            ))}
-                           
-                        </ButtonGroup>
-                        <small><i><b className="text-danger">*</b> is doing power down</i></small>
-                        <Table striped bordered hover size="sm" responsive>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Username</th>
-                                    <th>Amount({sum.toFixed(2)})</th>
-                                    <th>Unit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                                {this.state.data.map((x)=>(
-                                    <tr key={x}>
-                                    <td>{new Date(x[0]*1000).toLocaleDateString("en-us")}</td>
-                                    <td>{x[1]}</td>
-                                    <td>{x[3]}</td>
-                                    <td>{x[4]}</td>
-                                </tr>
-                                ))}
+                    <small><i><b className="text-danger">Red Button</b> is doing power down</i></small>
+                        <Row>
+                        {this.state.users.map((user)=>(
+                           <Col md={4}>
+                             <Card className="contes mt-4">
+                                 <Card.Body>
+                                     <Row>
+                                         <Col xs={3}>
+                                             <Image src={user.image} roundedCircle fluid/>
+                                         </Col>
+                                         <Col xs={9}>
+                                            <h6>
+                                            @{user.name}
+                                            </h6>
+                                            <Button size="sm" variant={user.pw} onClick={()=>this.handleShow(user.name)}>See Detail</Button>
+                                         </Col>
+                                     </Row>
+                                 </Card.Body>
+                             </Card>
+                           </Col>
+                        ))}
+                        </Row>
 
-                               
-                                
-                            </tbody>
-                            </Table>
     
                     </Container>
     
     
-    
+                    <Modal show={this.state.show} onHide={()=>this.handleClose()} animation={false} size="lg">
+                        <Modal.Header>
+                        <Modal.Title>Detail Power Up Activity</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Table striped bordered hover size="sm" responsive>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Username</th>
+                                        <th>Amount({sum.toFixed(2)})</th>
+                                        <th>Unit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    {this.state.data.map((x)=>(
+                                        <tr key={x}>
+                                        <td>{new Date(x[0]*1000).toLocaleDateString("en-us")}</td>
+                                        <td>{x[1]}</td>
+                                        <td>{x[3]}</td>
+                                        <td>{x[4]}</td>
+                                    </tr>
+                                    ))}
+
+                                
+                                    
+                                </tbody>
+                            </Table>
+                        </Modal.Body>
+                    </Modal>
                 
+
                 </div>
             );
 

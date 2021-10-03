@@ -1,4 +1,13 @@
+.contes{
+  border: none!important;
+  background: #fff;
+  box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+  letter-spacing: 1px;
+}
 
+.contes .btn{
+  padding-top: 1px;
+}
 @media(min-width:769px){
   .map{
     width: 70%!important;

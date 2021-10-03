@@ -1,8 +1,6 @@
 import React from 'react';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
-import {Container} from 'react-bootstrap';
 import '../App.css';
-import MapStyle  from './MapStyle';
 
  
 class Maps extends React.Component{
@@ -11,7 +9,6 @@ class Maps extends React.Component{
          return(
              <div className="tes">
                   <Map className="map"
-                  options={{styles:MapStyle.plos}}
                 google={this.props.google}
                 zoom={3}
                 

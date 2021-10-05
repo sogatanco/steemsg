@@ -1,0 +1,9 @@
+{
+    "appId": "io.ionic.steemcontest",
+    "appName": "steem-contest",
+    "bundledWebRuntime": false,
+    "npmClient": "npm",
+    "webDir": "build",
+    "cordova": {}
+    
+  }

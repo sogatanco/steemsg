@@ -1,0 +1,7 @@
+{
+    "name": "steem-contest",
+    "integrations": {
+      "capacitor": {}
+    },
+    "type": "react"
+  }

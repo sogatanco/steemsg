@@ -1,6 +1,6 @@
 import React from 'react';
 import Tracking from './Pages/Tracking';
-import Delegator from './Pages/Delegator';
+import Home from './Pages/Home';
 import FullDelegator from './Pages/FullDelegator';
 import Maps from './Pages/Maps';
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
@@ -16,7 +16,7 @@ function App() {
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
                       <Nav className="me-auto">
-                      <Nav.Link href="/">Power up info</Nav.Link>
+                      <Nav.Link href="tracking/">Power up info</Nav.Link>
                       <Nav.Link href="/delegator">Delegator</Nav.Link>
                       <Nav.Link href="/map">Map</Nav.Link>
                       </Nav>
@@ -24,22 +24,16 @@ function App() {
           </Container>
       </Navbar>
 
-      <Container>
-        <Row>
-          <Col lg={3} md={12} className="d-none d-lg-block">
-              <Delegator></Delegator>
-          </Col>
-          <Col lg={9} md={12}>
+  
+ 
          
         <Switch>
-          <Route path="/" exact component={Tracking}/>
+          <Route path="/" exact component={Home}/>
+          <Route path="/tracking" exact component={Tracking}/>
           <Route path="/delegator" exact component={FullDelegator}/>
           <Route path="/map" exact component={Maps}/>
         </Switch>
      
-          </Col>
-        </Row>
-      </Container>
       </BrowserRouter>
       
    </>

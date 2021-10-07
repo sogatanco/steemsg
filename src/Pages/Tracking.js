@@ -1,5 +1,6 @@
 import React from 'react';
 import {Container,  Button, Table, Row, Col, Card, Image, Badge, Modal} from 'react-bootstrap' ;
+import Delegator from './Delegator';
 
 
 class Tracking extends React.Component{
@@ -100,7 +101,12 @@ class Tracking extends React.Component{
                 <div>
     
                     <Container className="mt-4">
-                    <small><i><b className="text-danger">Red Button</b> is doing power down</i></small>
+                    <Row>
+                        <Col lg={3} md={12}>
+                            <Delegator></Delegator>
+                        </Col>
+                        <Col lg={9} md={12}>
+                        <small><i><b className="text-danger">Red Button</b> is doing power down</i></small>
                         <Row>
                         {this.state.users.map((user)=>(
                            <Col md={4}>
@@ -124,6 +130,8 @@ class Tracking extends React.Component{
                         </Row>
 
     
+                        </Col>
+                    </Row>
                     </Container>
     
     

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Table} from 'react-bootstrap';
+import {Container, Table, Row, Col, Card, Badge, ProgressBar, Image} from 'react-bootstrap';
 
 
 class FullDelegator extends React.Component{
@@ -31,7 +31,7 @@ class FullDelegator extends React.Component{
                 })
 
                 hasil.map(hs=>{
-                    hasiltotal.push({'user':hs[1], 'total':(parseInt(hs[3])*this.state.vts).toFixed(2)})
+                    hasiltotal.push({'user':hs[1], 'total':(parseInt(hs[3])*this.state.vts).toFixed(0),  'avatar':'https://steemitimages.com/u/'+hs[1]+'/avatar'})
                 })
 
                this.setState({list:hasiltotal})
@@ -51,32 +51,44 @@ class FullDelegator extends React.Component{
     }
 
     render(){
+        let sumtotal= this.state.list.reduce(function(prev, current) {
+            return prev + +current.total
+          }, 0);
         return(
+
             <>
              <Container className="mt-4">
                 <h4>Promosteem.com Delegator</h4>
                 <hr></hr>
 
-                <Table striped bordered hover size="sm" responsive>
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                                {this.state.list.map((x)=>(
-                                    <tr key={x.user}>
-                                    <td>{x.user}</td>
-                                    <td>{x.total}</td>
-                                </tr>
-                                ))}
+               
 
-                               
+                <Row>
+                    {this.state.list.map((x)=>(
+                        <Col md={3}>
+
+                        <Card className="contes mt-4">
+                            <Card.Body>
+                                <Row>
+                                    <Col xs={3}>
+                                        <Image src={x.avatar} roundedCircle fluid/>
+                                    </Col>
+                                    <Col xs={9}>
+                                        <h6>
+                                            @{x.user}
+                                        </h6>
+                                        <ProgressBar animated variant="primary" now="100" label={`${x.total} SP / ${(x.total/sumtotal*100).toFixed(1)} %`} />
+                                    </Col>
                                 
-                            </tbody>
-                            </Table>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                         
+                    </Col>
+                    ))}
+
+
+                </Row>
              </Container>
             </>
         )

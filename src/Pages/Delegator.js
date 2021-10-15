@@ -54,7 +54,7 @@ class Delegator extends React.Component{
     componentWillUnmount() {
         clearInterval(this.timerID);
     }
-    
+        
     render(){
 
         let sumtotal= this.state.list.reduce(function(prev, current) {

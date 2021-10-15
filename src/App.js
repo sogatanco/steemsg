@@ -5,6 +5,7 @@ import FullDelegator from './Pages/FullDelegator';
 import Maps from './Pages/Maps';
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
 import {Navbar, Nav, Container, Row, Col} from 'react-bootstrap' ;
+import Kartu from './Pages/Kartu';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/tracking" exact component={Tracking}/>
           <Route path="/delegator" exact component={FullDelegator}/>
           <Route path="/map" exact component={Maps}/>
+          <Route path="/card/:user" exact component={Kartu}/>
         </Switch>
      
       </BrowserRouter>
